@@ -14,18 +14,18 @@ const colorScale = d3.scaleOrdinal(continents, d3.schemeSet2); // d3.schemeSet2 
 
 
 function init(){
-    d3.csv("./data/gapminder_subset.csv", 
+    d3.csv("./data/weather.csv", 
         function(d) {
             return {  
             // Besides converting the types, we also simpilify the variable names here. 
-            country: d.country,
-            continent: d.continent,
-            year: +d.year, // using + to convert to numbers; same below
-            lifeExp: +d.life_expectancy, 
-            income: +d.income_per_person, 
-            gdp: +d.gdp_per_capita, 
-            childDeaths: +d.number_of_child_deaths,
-            population: +d.population
+            station: d.station,
+            state: d.state,
+            latitute: +d.latitude, // using + to convert to numbers; same below
+            longitude: +d.longitude, 
+            date: +d.date, 
+            temp_min: +d.TMIN, 
+            temp_max: +d.TMAX,
+            temp_range: +d.TMAX - +d.TMIN
             }
         }
     )
