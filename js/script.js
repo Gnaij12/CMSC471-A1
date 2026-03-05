@@ -35,10 +35,26 @@ function map(mapdata) {
 
 let allData = []
 let targetDay = 30
+let tempVar = 'minTemp'
 // let xVar = 'income', yVar = 'lifeExp', sizeVar = 'population', targetYear = 2000
 // let xScale, yScale, sizeScale
 // const options = ['income', 'lifeExp', 'gdp', 'population', 'childDeaths']
-// const options_map = new Map([['income', 'Income'], ['lifeExp', 'Life Expectancy'], ['gdp', 'GDP'], ['population', 'Population'], ['childDeaths', "Child Deaths"]])
+const temp_map = new Map([['minTemp', 'Minimum Temperature'], ['maxTemp', 'Maximum Temperature'], ['rangeTemp', 'Temperature Range']])
+const stateNames = new Map([ //AI generated
+    ['AL', 'Alabama'], ['AK', 'Alaska'], ['AZ', 'Arizona'], ['AR', 'Arkansas'],
+    ['CA', 'California'], ['CO', 'Colorado'], ['CT', 'Connecticut'], ['DE', 'Delaware'],
+    ['FL', 'Florida'], ['GA', 'Georgia'], ['HI', 'Hawaii'], ['ID', 'Idaho'],
+    ['IL', 'Illinois'], ['IN', 'Indiana'], ['IA', 'Iowa'], ['KS', 'Kansas'],
+    ['KY', 'Kentucky'], ['LA', 'Louisiana'], ['ME', 'Maine'], ['MD', 'Maryland'],
+    ['MA', 'Massachusetts'], ['MI', 'Michigan'], ['MN', 'Minnesota'], ['MS', 'Mississippi'],
+    ['MO', 'Missouri'], ['MT', 'Montana'], ['NE', 'Nebraska'], ['NV', 'Nevada'],
+    ['NH', 'New Hampshire'], ['NJ', 'New Jersey'], ['NM', 'New Mexico'], ['NY', 'New York'],
+    ['NC', 'North Carolina'], ['ND', 'North Dakota'], ['OH', 'Ohio'], ['OK', 'Oklahoma'],
+    ['OR', 'Oregon'], ['PA', 'Pennsylvania'], ['RI', 'Rhode Island'], ['SC', 'South Carolina'],
+    ['SD', 'South Dakota'], ['TN', 'Tennessee'], ['TX', 'Texas'], ['UT', 'Utah'],
+    ['VT', 'Vermont'], ['VA', 'Virginia'], ['WA', 'Washington'], ['WV', 'West Virginia'],
+    ['WI', 'Wisconsin'], ['WY', 'Wyoming']
+]);
 const t = 1000; // 1000ms = 1 second
 // const continents = ['Africa', 'Asia', 'Oceania', 'Americas', 'Europe']
 // const colorScale = d3.scaleOrdinal(continents, d3.schemeSet2); // d3.schemeSet2 is a set of predefined colors. 
@@ -63,9 +79,9 @@ function init(){
             longitude: +d.longitude, 
             date: +(d.date.slice(4)),
             day: dayOfYear(d.date),
-            temp_min: +d.TMIN, 
-            temp_max: +d.TMAX,
-            temp_range: +d.TMAX - +d.TMIN
+            minTemp: +d.TMIN, 
+            maxTemp: +d.TMAX,
+            rangeTemp: +d.TMAX - +d.TMIN
             }
         }
     )
@@ -82,8 +98,8 @@ function init(){
                   d.state &&
                   !isNaN(d.latitude) &&
                   !isNaN(d.longitude) &&
-                  !isNaN(d.temp_min) &&
-                  !isNaN(d.temp_max) &&
+                  !isNaN(d.minTemp) &&
+                  !isNaN(d.maxTemp) &&
                   projection([d.longitude, d.latitude]) !== null)
         // setupSelector()
         
@@ -227,8 +243,9 @@ function updateVis(){
                   // if you change opacity to hide it, you should also change opacity here
                   .style("display", 'block') // Make the tooltip visible
                   .html( // Change the html content of the <div> directly
-                  `<strong>${d.country}</strong><br/>
-                  Continent: ${d.continent}`)
+                  `<strong>${stateNames.get(d.state)}</strong><br/>
+                  Station: ${d.station}<br/>
+                  ${temp_map.get(tempVar)}: ${d[tempVar]}°F`)
                   .style("left", (event.pageX + 20) + "px")
                   .style("top", (event.pageY - 28) + "px");
                  d3.select(this) // Refers to the hovered circle
