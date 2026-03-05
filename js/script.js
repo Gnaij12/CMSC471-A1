@@ -34,6 +34,7 @@ function map(mapdata) {
 
 
 let allData = []
+let targetDay = 30
 // let xVar = 'income', yVar = 'lifeExp', sizeVar = 'population', targetYear = 2000
 // let xScale, yScale, sizeScale
 // const options = ['income', 'lifeExp', 'gdp', 'population', 'childDeaths']
@@ -42,6 +43,14 @@ const t = 1000; // 1000ms = 1 second
 // const continents = ['Africa', 'Asia', 'Oceania', 'Americas', 'Europe']
 // const colorScale = d3.scaleOrdinal(continents, d3.schemeSet2); // d3.schemeSet2 is a set of predefined colors. 
 
+function dayOfYear(dateStr) { // AI generated function
+    const year = dateStr.slice(0, 4);
+    const month = dateStr.slice(4, 6);
+    const day = dateStr.slice(6, 8);
+    const date = new Date(year, month - 1, day); // month is 0-indexed
+    const jan1 = new Date(year, 0, 1);
+    return Math.floor((date - jan1) / (1000 * 60 * 60 * 24)) + 1; // ms to days
+}
 
 function init(){
     d3.csv("./data/weather.csv", 
@@ -52,7 +61,8 @@ function init(){
             state: d.state,
             latitude: +d.latitude, // using + to convert to numbers; same below
             longitude: +d.longitude, 
-            date: +(d.date.slice(4)), 
+            date: +(d.date.slice(4)),
+            day: dayOfYear(d.date),
             temp_min: +d.TMIN, 
             temp_max: +d.TMAX,
             temp_range: +d.TMAX - +d.TMIN
@@ -192,7 +202,10 @@ function updateVis(){
   // Draws (or updates) the bubbles
   // Filter data for the current year
   // let currentData = allData.filter(d => d.year === targetYear)
-  let currentData = allData.slice(0,1000).filter(d => projection([d.longitude, d.latitude]) !== null);  const points = svg.selectAll('.points')
+  let currentData = allData.filter(d => projection([d.longitude, d.latitude]) !== null)
+                    .filter(d => d.day == targetDay);
+  console.log(currentData)
+  const points = svg.selectAll('.points')
     .data(currentData, d => d.station)
     .join(
         // When we have new data points
