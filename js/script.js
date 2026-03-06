@@ -127,6 +127,10 @@ function setupSelector(){
       .default(targetDay)
       .on('onchange', (val) => {
         targetDay = +val
+        const jan1 = new Date(2017, 0, 1);
+        const date = new Date(jan1.setDate(+val));
+        const timeFormat = d3.timeFormat("%B %d, %Y")
+        d3.select('#value').text(timeFormat(date));
         updateVis()
       });
 

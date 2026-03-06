@@ -26,6 +26,13 @@ body {
     margin: 20px 0;
     width: 100%;             /* Ensure it takes full container width */
 }
+#value {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+    margin-bottom: 0px;
+}
 
 path { 
     stroke: #444; 
