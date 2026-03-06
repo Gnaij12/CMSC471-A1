@@ -1,67 +1,64 @@
-/* Reset default styles */
-* {
-    font-family: Arial, sans-serif;
-    max-width: 800px;
-    margin: 0px auto;
-    line-height: 1.8;
+body { 
+    background-color: #f8f9fa; 
+    padding: 20px;
 }
 
 
-body { 
+.subcontainer {
     background-color: #ffffff;
+    border: none;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px #0000004d;
+}
+
+#controls {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    margin-left: 50px;
 }
 
 #map {
     display: flex;
     justify-content: center; 
-    margin-top: 20px;
-    margin-left: 100px;
-}
-
-#controls {
-    display: flex;
-    justify-content: center; /* Centers horizontally */
-    align-items: center;     /* Centers vertically */
-    gap: 10px;               /* Space between label and dropdown */
     margin: 20px 0;
-    width: 100%;             /* Ensure it takes full container width */
-}
-#value {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 20px;
-    margin-bottom: 0px;
 }
 
-path { 
-    stroke: #444; 
-}
-/* Container styling for layout */
-.container {
-    max-width: 800px;
-    margin: 2rem auto;
-    font-family: Arial, sans-serif;
-    
-}
 
-.subcontainer{
-    border: 1px solid #717171; 
-    padding: 15px;
-    border-radius: 5px
-}
-
-#vis svg {
-    margin: 2rem 0;
-    border: 1px solid #ccc; /*otherwise you can't see this part*/
-}
-
+/* Tooltip styling: AI Generated */
 #tooltip {
-    position: absolute; /* So we can move it with the cursor */
-    padding: 10px;
-    background: white;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    pointer-events: none; /* Prevent tooltip from interfering with mouse events */
-    font-size: 12px;
+    position: absolute;
+    padding: 12px;
+    background: #FFFFFF;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px #0000004d;;
+    font-size: 14px;
+    z-index: 1000;
+}
+
+#value {
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+     
+}
+
+#slider {
+    display: flex;
+    justify-content: center; 
+}
+
+#slider svg {
+    display: block;
+    overflow: visible; 
+}
+
+.title {
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 15px;
+    font-weight: bold;
 }

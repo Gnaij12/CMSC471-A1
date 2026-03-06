@@ -150,7 +150,7 @@ function setupSelector(){
        .attr('width', width)  // Adjust width if needed
        .attr('height', 100)
        .append('g')
-       .attr('transform', 'translate(30,30)')
+       .attr('transform', `translate(${padding / 2}, 30)`)
        .call(slider);
 
   d3.select('#tempVariable')
