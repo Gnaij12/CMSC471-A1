@@ -116,6 +116,10 @@ function init(){
 
 function setupSelector(){
   const padding = 300
+  const jan1 = new Date(2017, 0, 1);
+  const date = new Date(jan1.setDate(targetDay));
+  const timeFormat = d3.timeFormat("%B %d, %Y")
+  d3.select('#value').text(timeFormat(date));
   let slider = d3
       .sliderHorizontal()
       .min(d3.min(allData.map(d => +d.day)))
