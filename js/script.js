@@ -233,26 +233,68 @@ function updateVis(){
     .style('fill', d => (tempVar === 'rangeTemp') ? 'gray' : tempColorScale(d[tempVar]));
     addLegend();
 }
-function addLegend() { // AI generated function
-    svg.selectAll('.legend').remove(); // Clear existing legend
 
-    if (tempVar === 'rangeTemp') return; // No legend for range
+function addLegend() { //AI generated function
+    svg.selectAll('.legend').remove();
 
-    const legendWidth = 40;
-    const legendHeight = 400;
-    const legendX = 1120;
     const legendY = 150;
+    const legendHeight = 400;
     const tempMin = -20;
     const tempMax = 95;
 
-    // Create a linear gradient
+    // ── Size Legend ──────────────────────────────────────────────
+    const sizeLegendX = 1030;
+    const sizeLegendG = svg.append('g').attr('class', 'legend');
+
+    sizeLegendG.append('text')
+        .attr('x', sizeLegendX)
+        .attr('y', legendY - 15)
+        .attr('text-anchor', 'middle')
+        .style('font-size', '20px')
+        .style('font-weight', 'bold')
+        .text('Size (°F)');
+
+    // Pick the right scale and sample values based on tempVar
+    const sizeValues = (tempVar === 'rangeTemp')
+        ? [0, 30, 60]       // range: 0–60
+        : [-20, 32, 95];    // min/max: -20 to 95
+
+    const sizeScale = (tempVar === 'rangeTemp') ? radiusScale2 : radiusScale;
+
+    // Space circles out vertically based on their radius
+    let currentY = legendY + 10;
+    sizeValues.forEach(val => {
+        const r = sizeScale(val);
+        currentY += r; // pad by radius so circles don't overlap
+        sizeLegendG.append('circle')
+            .attr('cx', sizeLegendX-25)
+            .attr('cy', currentY)
+            .attr('r', r)
+            .style('fill', '#aaa')
+            .style('opacity', 0.6)
+            .style('stroke', '#555');
+
+        sizeLegendG.append('text')
+            .attr('x', sizeLegendX - 5)
+            .attr('y', currentY + 4)
+            .style('font-size', '20px')
+            .text(`${val}°F`);
+
+        currentY += r + 8; // move down for next circle
+    });
+
+    // ── Color Legend (min/max only) ───────────────────────────────
+    if (tempVar === 'rangeTemp') return;
+
+    const colorLegendX = 1110;
+    const legendWidth = 40;
+
     const defs = svg.append('defs').attr('class', 'legend');
     const linearGradient = defs.append('linearGradient')
         .attr('id', 'tempGradient')
         .attr('x1', '0%').attr('y1', '0%')
-        .attr('x2', '0%').attr('y2', '100%'); // vertical gradient
+        .attr('x2', '0%').attr('y2', '100%');
 
-    // Add gradient stops matching the color scale
     const stops = [
         { offset: '0%',   color: '#ca0020' }, // 95°F  (top = hot)
         { offset: '30%',  color: '#ea9359' }, // 65°F
@@ -267,37 +309,35 @@ function addLegend() { // AI generated function
             .attr('stop-color', s.color);
     });
 
-    const legendG = svg.append('g').attr('class', 'legend');
+    const colorLegendG = svg.append('g').attr('class', 'legend');
 
-    // Draw the gradient rectangle
-    legendG.append('rect')
-        .attr('x', legendX)
+    colorLegendG.append('rect')
+        .attr('x', colorLegendX)
         .attr('y', legendY)
         .attr('width', legendWidth)
         .attr('height', legendHeight)
         .style('fill', 'url(#tempGradient)');
 
-    // Create a scale for the axis
     const legendScale = d3.scaleLinear()
-        .domain([tempMax, tempMin]) // flipped so hot is at top
+        .domain([tempMax, tempMin])
         .range([0, legendHeight]);
 
     const legendAxis = d3.axisRight(legendScale)
         .tickValues([-20, 0, 32, 65, 95])
         .tickFormat(d => `${d}°F`);
 
-    legendG.append('g')
-        .attr('transform', `translate(${legendX + legendWidth}, ${legendY})`)
-        .call(legendAxis);
+    colorLegendG.append('g')
+        .attr('transform', `translate(${colorLegendX + legendWidth}, ${legendY})`)
+        .call(legendAxis)
+        .style('font-size', '15px');
 
-    // Legend title
-    legendG.append('text')
-        .attr('x', legendX + legendWidth / 2)
+    colorLegendG.append('text')
+        .attr('x', colorLegendX + legendWidth / 2)
         .attr('y', legendY - 15)
         .attr('text-anchor', 'middle')
         .style('font-size', '20px')
         .style('font-weight', 'bold')
-        .text('Temp (°F)')
+        .text('Temp (°F)');
 }
 
 
