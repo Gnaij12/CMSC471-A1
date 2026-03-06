@@ -70,6 +70,12 @@ function dayOfYear(dateStr) { // AI generated function
     return Math.floor((date - jan1) / (1000 * 60 * 60 * 24)) + 1; // ms to days
 }
 
+function parseTemp(val) {
+    if (val === '' || val === null || val === undefined) return null;
+    return +val;
+}
+
+
 function init(){
     d3.csv("./data/weather.csv", 
         function(d) {
@@ -81,9 +87,11 @@ function init(){
             longitude: +d.longitude, 
             date: +(d.date.slice(4)),
             day: dayOfYear(d.date),
-            minTemp: +d.TMIN, 
-            maxTemp: +d.TMAX,
-            rangeTemp: +d.TMAX - +d.TMIN
+            minTemp: parseTemp(d.TMIN), 
+            maxTemp: parseTemp(d.TMAX),
+            rangeTemp: (parseTemp(d.TMAX) !== null && parseTemp(d.TMIN) !== null) 
+                    ? parseTemp(d.TMAX) - parseTemp(d.TMIN) 
+                    : null
             }
         }
     )
@@ -108,7 +116,6 @@ function init(){
 
         setupSelector()
         updateVis()
-        // addLegend()
     })
     .catch(error => console.error('Error loading data:', error));
 }
@@ -223,9 +230,76 @@ function updateVis(){
     .transition().duration(t)
     .attr('transform', d => `translate(${projection([d.longitude, d.latitude]).join(",")})`)
     .attr('r', d => (tempVar === 'rangeTemp') ? radiusScale2(d[tempVar]) : radiusScale(d[tempVar]))
-    .style('fill', d => (tempVar === 'rangeTemp') ? 'steelblue' : tempColorScale(d[tempVar]));
-    
+    .style('fill', d => (tempVar === 'rangeTemp') ? 'gray' : tempColorScale(d[tempVar]));
+    addLegend();
 }
+function addLegend() { // AI generated function
+    svg.selectAll('.legend').remove(); // Clear existing legend
+
+    if (tempVar === 'rangeTemp') return; // No legend for range
+
+    const legendWidth = 40;
+    const legendHeight = 400;
+    const legendX = 1120;
+    const legendY = 150;
+    const tempMin = -20;
+    const tempMax = 95;
+
+    // Create a linear gradient
+    const defs = svg.append('defs').attr('class', 'legend');
+    const linearGradient = defs.append('linearGradient')
+        .attr('id', 'tempGradient')
+        .attr('x1', '0%').attr('y1', '0%')
+        .attr('x2', '0%').attr('y2', '100%'); // vertical gradient
+
+    // Add gradient stops matching the color scale
+    const stops = [
+        { offset: '0%',   color: '#ca0020' }, // 95°F  (top = hot)
+        { offset: '30%',  color: '#ea9359' }, // 65°F
+        { offset: '55%',  color: '#92c5de' }, // 32°F
+        { offset: '75%',  color: '#035d91' }, // 0°F
+        { offset: '100%', color: '#542788' }  // -20°F (bottom = cold)
+    ];
+
+    stops.forEach(s => {
+        linearGradient.append('stop')
+            .attr('offset', s.offset)
+            .attr('stop-color', s.color);
+    });
+
+    const legendG = svg.append('g').attr('class', 'legend');
+
+    // Draw the gradient rectangle
+    legendG.append('rect')
+        .attr('x', legendX)
+        .attr('y', legendY)
+        .attr('width', legendWidth)
+        .attr('height', legendHeight)
+        .style('fill', 'url(#tempGradient)');
+
+    // Create a scale for the axis
+    const legendScale = d3.scaleLinear()
+        .domain([tempMax, tempMin]) // flipped so hot is at top
+        .range([0, legendHeight]);
+
+    const legendAxis = d3.axisRight(legendScale)
+        .tickValues([-20, 0, 32, 65, 95])
+        .tickFormat(d => `${d}°F`);
+
+    legendG.append('g')
+        .attr('transform', `translate(${legendX + legendWidth}, ${legendY})`)
+        .call(legendAxis);
+
+    // Legend title
+    legendG.append('text')
+        .attr('x', legendX + legendWidth / 2)
+        .attr('y', legendY - 15)
+        .attr('text-anchor', 'middle')
+        .style('font-size', '20px')
+        .style('font-weight', 'bold')
+        .text('Temp (°F)')
+}
+
 
 const svg = d3.select("#map").append("svg")
       .attr("width", width)
