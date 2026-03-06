@@ -6,11 +6,42 @@
     line-height: 1.8;
 }
 
+
+body { 
+    background-color: #ffffff;
+}
+
+#map {
+    display: flex;
+    justify-content: center; 
+    margin-top: 20px;
+    margin-left: 100px;
+}
+
+#controls {
+    display: flex;
+    justify-content: center; /* Centers horizontally */
+    align-items: center;     /* Centers vertically */
+    gap: 10px;               /* Space between label and dropdown */
+    margin: 20px 0;
+    width: 100%;             /* Ensure it takes full container width */
+}
+
+path { 
+    stroke: #444; 
+}
 /* Container styling for layout */
 .container {
     max-width: 800px;
     margin: 2rem auto;
     font-family: Arial, sans-serif;
+    
+}
+
+.subcontainer{
+    border: 1px solid #717171; 
+    padding: 15px;
+    border-radius: 5px
 }
 
 #vis svg {
