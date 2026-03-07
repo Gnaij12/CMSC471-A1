@@ -22,11 +22,11 @@
         <div id="tooltip" style="display:none"></div> 
     </div>
     <div class ="writeup">
-        <h1>Write up</h1>
+        <h1>Write Up</h1>
         <ol>
             <li> 
                 <p>
-                    Dataset: We used the Daily Weather in the U.S., 2017 Dataset. 
+                    <b>Dataset:</b> We used the Daily Weather in the U.S., 2017 Dataset. 
                     This dataset contains weather data from all of the United States, including the territories.
                     It contains temperatures, winds, and precipitation data.
                     However, we decided to take a subset of the data by only using the 50 states and only using temperature from those states.
@@ -36,21 +36,25 @@
             </li>
             <li>
                 <p>
-                    Rationale for our design decisions: Because our weather data has longitude and latitude coordinates, we thought it would be more interesting and understandable to use a map.
+                    <b>Rationale for our design decisions:</b> Because our weather data has longitude and latitude coordinates, we thought it would be more interesting and understandable to use a map.
                     Therefore, we displayed a US map and mapped the coordinates onto that. Then, we wanted a way to easily show temperature differences, so we used both size and color to do so.
-                    However, with the natural differences in temperatures accross different months and days, we wanted to allow users to check specific days with a slider. \
-                    We figured the slider would be the easiest and most intuitive method to do this. Andy talk about the rest here
+                    However, with the natural differences in temperatures accross different months and days, we wanted to allow users to check specific days with a slider. 
+                    We figured the slider would be the easiest and most intuitive method to do this. For both temperature minimums and maximums, we found that both color and size were appropriate
+                    embeddings for the values. Temperatures have extremes on both hot and cold ends, a size scaling that initially shrinks, then decreases, is able to capture magnitudes on both
+                    end of the spectrum. Color is commonly used to represent tempreature, and so we developed a scale that uses darker blues for cold temperatures and darker reds for hot temperatures, with lighter colors for more moderate temperatures.
+                    For temperature ranges however, we decided not to include the color embedding, since ranges do not necessarily have a 'hotness' or 'coldness' associated with them. Instead,
+                    we allowed the size embedding to demonstrate the magnitude of the range. To select which temperature variable to show, the most intuitive option was to use a dropdown.
                 </p>
             </li>
             <li>
                 <p>
-                    References to data resources: We followed <a href="https://billmill.org/making_a_us_map.html#:~:text=Create%20your%20HTML,want%20to%20show%20state%20boundaries">this tutorial</a> for making a US map: 
+                    <b>References to data resources:</b> We followed <a href="https://billmill.org/making_a_us_map.html#:~:text=Create%20your%20HTML,want%20to%20show%20state%20boundaries">this tutorial</a> for making a US map: 
                     We then used <a href="https://www.youtube.com/watch?v=hrJ64jpYb0A">this youtube video</a> to help map points onto the us map.
                 </p>
             </li>
             <li>
                 <p>
-                    An overview of our development process: We first worked together to find how to create a US map. 
+                    <b>An overview of our development process:</b> We first worked together to find how to create a US map. 
                     Andy eventually found a tutorial for that.
                     Next, we split the work into two sections.
                     Alan mapped the coordinates onto the map. This probably took the longest to finish, a couple hours, because of the debugging required to make it work.
@@ -61,13 +65,19 @@
                     The development process ended up being pretty smooth due to a good foundation from labs 4-5. 
                     The main difficulty came with figuring out the US map and getting the points onto the map. 
                     After that, the other work was similar to labs 4-5.
-                    Andy did this stuff:
+                    Andy worked on the slider and dropdown menu, which was easily done by following the foundation of labs 4-5. 
+                    He modified the slider slightly to show the value of the slider, which ranges from Days 1 - 270. Andy also managed
+                    embedding the temperature as a color, and the magnitude of the temperature as the size of the circles, using the linear
+                    scale provided by d3. Additionally, Andy made it so the temperature range selection was monochromatic, since ranges are more easily distinguished by size than color.
+                    Andy also styled the webpage to center the content, and make the layout of controls more intuitive.
+                    Andy spent about 4-5 hours on his sections.
+
                 </p>
             </li>
             <li>
                 <p>
-                    AI Usage: We used AI to help debug our code as well as create a few functions/variables helpful for our project.
-                    These are labeled in our code. 
+                    <b>AI Usage:</b> We used AI to help debug our code as well as create a few functions/variables helpful for our project.
+                    These are labeled in our code. Andy primarily used Gemini.
                 </p>
             </li>
         </ol>

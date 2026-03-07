@@ -11,6 +11,15 @@ body {
     border-radius: 12px;
     box-shadow: 0 4px 6px #0000004d;
 }
+.writeup{
+    margin-top: 40px;
+
+}
+
+.writeup h1 {
+    text-align: center;
+    margin-bottom: 30px;
+}
 
 #controls {
     display: flex;
