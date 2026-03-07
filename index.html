@@ -21,6 +21,57 @@
         <div id="map"></div> <!--  Will hold our visualization (SVG) -->
         <div id="tooltip" style="display:none"></div> 
     </div>
+    <div class ="writeup">
+        <h1>Write up</h1>
+        <ol>
+            <li> 
+                <p>
+                    Dataset: We used the Daily Weather in the U.S., 2017 Dataset. 
+                    This dataset contains weather data from all of the United States, including the territories.
+                    It contains temperatures, winds, and precipitation data.
+                    However, we decided to take a subset of the data by only using the 50 states and only using temperature from those states.
+                    We use minimum temperature, maximum temperature, and our own temperature range variable to display.
+                    We also use the date, the state, and the longitude/latitude for making our visualization.
+                </p>
+            </li>
+            <li>
+                <p>
+                    Rationale for our design decisions: Because our weather data has longitude and latitude coordinates, we thought it would be more interesting and understandable to use a map.
+                    Therefore, we displayed a US map and mapped the coordinates onto that. Then, we wanted a way to easily show temperature differences, so we used both size and color to do so.
+                    However, with the natural differences in temperatures accross different months and days, we wanted to allow users to check specific days with a slider. \
+                    We figured the slider would be the easiest and most intuitive method to do this. Andy talk about the rest here
+                </p>
+            </li>
+            <li>
+                <p>
+                    References to data resources: We followed <a href="https://billmill.org/making_a_us_map.html#:~:text=Create%20your%20HTML,want%20to%20show%20state%20boundaries">this tutorial</a> for making a US map: 
+                    We then used <a href="https://www.youtube.com/watch?v=hrJ64jpYb0A">this youtube video</a> to help map points onto the us map.
+                </p>
+            </li>
+            <li>
+                <p>
+                    An overview of our development process: We first worked together to find how to create a US map. 
+                    Andy eventually found a tutorial for that.
+                    Next, we split the work into two sections.
+                    Alan mapped the coordinates onto the map. This probably took the longest to finish, a couple hours, because of the debugging required to make it work.
+                    Alan also filtered the data by first taking out the data points with null values. He then added a day variable to use with the slider and filtered the points based on the day.
+                    Additionally, he added the date shown on the top, which changes from the slider.
+                    Lastly, he added tooltips for the dots and two legends for the colors and the sizes.
+                    Overall, Alan took about 5-6 hours to finish his sections. 
+                    The development process ended up being pretty smooth due to a good foundation from labs 4-5. 
+                    The main difficulty came with figuring out the US map and getting the points onto the map. 
+                    After that, the other work was similar to labs 4-5.
+                    Andy did this stuff:
+                </p>
+            </li>
+            <li>
+                <p>
+                    AI Usage: We used AI to help debug our code as well as create a few functions/variables helpful for our project.
+                    These are labeled in our code. 
+                </p>
+            </li>
+        </ol>
+    </div>
     
     
     <!-- Load D3.js -->
